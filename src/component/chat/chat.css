@@ -1,0 +1,166 @@
+
+
+/* 
+.chat 
+.chat__sidebar
+.chat__main
+.chat__messages
+.chat__message
+.chat__submit
+.chat__submit-btn 
+*/
+
+
+/**
+    Utility classes:
+**/
+
+.hide-scroll::-webkit-scrollbar {     /* Hide scrollbar for Chrome, Safari and Opera */
+    display: none;
+}
+.hide-scroll {  /* Hide scrollbar for IE, Edge and Firefox */
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/**
+    Default:
+**/
+
+
+
+.chat {
+    height: 100%;
+}
+
+
+.chat__sidebar {
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    overflow-y: scroll
+}
+
+.chat__create-results {
+    padding: 8px;
+}
+
+.chat__create-results {
+    padding: 8px;
+}
+.chat__create-results .ant-tag {
+    padding: 4px;
+}
+.chat__create-results .ant-tag.match {
+    border: 1px solid rgb(140, 202, 116);
+}
+
+.chat__notification {
+    margin-top: 8px;
+}
+
+.chat__main {
+    height: 100%;
+}
+
+.chat__main .ant-layout-header {
+    background: rgb(241, 241, 241);
+    height: 41px;
+    line-height: 41px;
+    border-bottom: 1px solid rgb(233, 233, 233);
+}
+
+.messages { 
+    background: rgb(245, 245, 245);
+    padding: 8px;
+    font-size: 12px;
+    overflow-y: scroll;
+}
+
+.chat__message {
+    margin-bottom: 8px;
+}
+
+.chat__message span {
+    margin-right: 4px;
+}
+
+.chat__message-user {
+    font-weight: bold;
+}
+
+.chat__message-date {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.chat__message-date::after {
+    content: ':'
+}
+
+.chat__message-body {
+    display: block;
+    padding-left: 32px;
+}
+
+.chat__submit {
+    border-top: 1px solid rgb(233, 233, 233);
+    padding: 8px;
+}
+
+.chat__submit-btn {
+    width: 100%;
+}
+
+.chat__submit .emoji-mart {
+    position: fixed;
+    right: 64px;
+    bottom: 64px;
+    z-index:9;
+}
+
+.room-details {
+    border-left: 1px solid rgb(233, 233, 233);
+    background: rgb(241, 241, 241);
+    height: 100%;
+}
+
+.room-details .ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow {
+    right: 45%;
+}
+.room-details .ant-collapse > .ant-collapse-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgb(233, 233, 233);
+}
+.room-details.ant-layout-sider-collapsed .ant-collapse-ghost > .ant-collapse-item:hover {
+    background: rgb(228, 228, 228);
+}
+
+.room-details__panel-roomMembers .ant-collapse-content > .ant-collapse-content-box {
+    padding: 8px;
+}
+
+.chat-upload {
+    margin-bottom: 8px;
+    padding: 8px;
+    height: 64px;
+    border: 2px dotted rgb(167, 164, 164);
+    border-radius: 12px;
+    opacity: 0.1;
+    background: url(../../assets/upload-solid.svg) center center no-repeat;
+}
+.chat-upload:focus {
+    outline: 1px solid rgb(233, 233, 233);
+    outline-offset: -10px;
+    box-shadow: none;
+}
+
+.chat-upload__file-drop {
+}
+.chat-upload__file-pending {
+    width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    height: 100%;
+}
