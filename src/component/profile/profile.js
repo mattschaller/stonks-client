@@ -4,6 +4,10 @@ import { UserOutlined } from '@ant-design/icons';
 import { authContext } from '../../contexts/AuthContext';
 import { serviceContext } from '../../contexts/ServiceContext';
 const { Content, Footer } = Layout
+
+
+const REACT_APP_API_PATH = process.env.REACT_APP_API_PATH
+
 const Profile = () => {
 
     const { auth } = useContext(authContext);
