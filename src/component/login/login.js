@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Form, Input, Button, Checkbox, Alert } from 'antd';
+import { Layout, Form, Input, Button, Checkbox, Alert } from 'antd';
 import { Link } from 'react-router-dom';
+import { GoogleCircleFilled, FacebookFilled, GithubFilled } from '@ant-design/icons';
 
 import { authContext } from '../../contexts/AuthContext';
 import { serviceContext } from '../../contexts/ServiceContext';
@@ -40,7 +41,7 @@ const Login = (props) => {
     }, [props, service]);
 
     return (
-        <>
+        <Layout style={{ padding: '20px' }}>
             <h1>Login</h1>
             {message && <Alert
                     message={message}
@@ -66,18 +67,18 @@ const Login = (props) => {
                         Login
                     </Button>
                 </Form.Item>
-                <Form.Item>
+                <Form.Item style={{ textAlign: 'right' }}>
                     <Button type="link" href={REACT_APP_API_PATH + "/oauth/github"}>
-                        OAuth: GitHub
+                        <GithubFilled style={{ fontSize: '64px' }} />
                     </Button>
                     <Button type="link" href={REACT_APP_API_PATH + "/oauth/google"}>
-                        OAuth: Google
+                        <GoogleCircleFilled style={{ fontSize: '64px' }} />
                     </Button>
                     <Button type="link" href={REACT_APP_API_PATH + "/oauth/facebook"}>
-                        OAuth: Facebook
+                        <FacebookFilled style={{ fontSize: '64px' }} />
                     </Button>
                 </Form.Item>
-                <Form.Item>
+                <Form.Item style={{ textAlign: 'right' }}>
                     <Button type="link">
                         <Link to="/recover">Forgot your password?</Link>
                     </Button>
@@ -86,7 +87,7 @@ const Login = (props) => {
                     </Button>
                 </Form.Item>
             </Form>
-        </>
+        </Layout>
     );
 }
 

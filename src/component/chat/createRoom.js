@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { authContext } from "../../contexts/AuthContext";
 import { serviceContext } from "../../contexts/ServiceContext";
 import { Tag, Tooltip, Avatar, Input, Layout, Space, Alert } from 'antd';
-import { InfoCircleOutlined} from '@ant-design/icons';
+import { InfoCircleOutlined, NumberOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Search } = Input;
@@ -18,60 +18,55 @@ const CreateRoom = (props) => {
     let { handleOk, handleCancel, setModal, type, setRoom, visibility, getRooms } = props;
 
     const onChange = async => {
-        if(query === "") setNotification('Please enter a value.')
+        if (query === "") return;
         if (type === 'new-rooms') {
-            service.send("find", "rooms", {name: { $search: query.toLowerCase().split(" ").join("-") }}).then(res => res.data).then(setUsers);
+            service.send("find", "rooms", {name: { $search: query.toLowerCase().split(" ").join("-") }}).then(res => res.data).then(users => users.filter(user => user._id !== auth.data.user._id)).then(setUsers);
         } else {
-            service.send("find", "users", {email: { $search: query }}).then(res => res.data).then(setUsers);
+            service.send("find", "users", {email: { $search: query }}).then(res => res.data).then(users => users.filter(user => user._id !== auth.data.user._id)).then(setUsers);
         }
     }
 
     const onSearch = () => {
-        if(query === "") return setNotification('Please enter a value.')
+        if(query === "") return
         if(type === 'new-rooms'){
-            if(users.length > 1) {
-                return setNotification('Too many results.')
-            } if(users.length === 1){
+            let directMatch = users.filter(user => user.email === query)
+            if(directMatch.length === 1){
                 return onFinishRoom(query, users)
-            }else {
-                return onFinishRoom(query); // Create new
+            } else {
+                return onFinishRoom(query);
             }
         } else {
-            if(users.length > 1) {
-                return setNotification('Too many results.')
-            } else if(users.length === 0) {
-                return setNotification('No results.')
-            } else {
-                onFinishMessage(users)
+            if(users.length === 1) {
+                return onFinishMessage(users[0])
             }
         }
+        return;
     }
 
     const onFinishMessage = async user => {
         if(user) {
+            console.log('user: ', user)
             let rooms = await service.send("find", "rooms", { members: { "$in": [auth.data.user._id, user._id] }, private: true })
             if(rooms.data.length > 0) {
-                console.log(`Room already exists: `, rooms.data)
                 setRoom(await service.send("get", "rooms", rooms.data[0]._id))
                 handleOk();
             } else {
                 let room = await service.send("create", "rooms", { private: true, members: [auth.data.user._id, user._id] });
                 if (room) {
-                    console.log(`Room created: `, room)
                     setRoom(room)
                     handleOk();
                 } else {
-                    setNotification("Something went wrong.") 
+                    return false;
                 }
             }
-        } else {
-            setNotification("No user found.") 
         }
     }
     
     const onFinishRoom = async (query, room) => {
         let name = query.toLowerCase().split(" ").join("-")
         if(room && room.length === 1) {
+            console.log('room: ', room);
+            console.log('query: ', query);
             room = room[0];
             if(room.members.includes(auth.data.user._id)){
                 setRoom(await service.send("get", "rooms", room._id));
@@ -92,7 +87,6 @@ const CreateRoom = (props) => {
             }
             // Check if user is part of room, if not, add, then return room.
         } else {
-            setNotification("Channel doesn't exist.  Lets create it.")
             let newRoom = await service.send("create", "rooms", { private: false, name, members: [auth.data.user._id] })
             if(newRoom){
                 setNotification(`Channel created: ${newRoom._id}`);
@@ -103,12 +97,14 @@ const CreateRoom = (props) => {
     }
 
     useEffect(() => {
+        console.log('Modal toggled ', notification)
+        setNotification("");
         setQuery("");
+        setUsers([])
     }, [visibility]);
 
     useEffect(() => {
         onChange()
-        //setNotification("");
         setUsers([]);
     }, [query]);
 
@@ -131,43 +127,24 @@ const CreateRoom = (props) => {
                 }
             />
 
-
-            {type === 'new-messages' && users.length > 0 && (
-                <div className="chat__create-results">
-                    <Space>
-                        {users.length + ' results'} 
-                        {users.map(user => (
-                            <Tag key={user._id} className={(user.email === query ? 'match' : '' )} onClick={e => setQuery(e.target.innerHTML)}>
-                                <Space className={'tag--' + user._id} key={user._id}>
-                                    <Avatar
-                                        size="small"
-                                        src={user.avatar}
-                                        alt={user.email}
-                                        />
-                                    {user.email}
-                                </Space>
-                            </Tag>
-                        ))}
-                    </Space>
+            {type === 'new-messages' && query.length > 3 && users.length > 0 && (
+                <div className="chat__create-results" style={{ width: '100%' }}>
+                    {users.map(user => (
+                        <Tag icon={<Avatar size={16} src={user.avatar} alt={user.email} />} key={user._id} className={(user.name === query.toLowerCase().split(" ").join("-") ? 'match' : '' )} onClick={e => setQuery(e.target.innerHTML)}>
+                            {user.email}
+                        </Tag>
+                    ))}
                 </div>
             )}
-            {type === 'new-rooms' && users.length > 0 && (
-                <div className="chat__create-results">
-                    <Space>
-                        {users.length + ' results'} 
-                        {users.map(user => (
-                            <Tag key={user._id} className={(user.name === query.toLowerCase().split(" ").join("-") ? 'match' : '' )} onClick={e => setQuery(e.target.innerHTML)}>
-                                <Space className={'tag--' + user._id} key={user._id}>
-                                    #{user.name}
-                                </Space>
-                            </Tag>
-                        ))}
-                    </Space>
+            {type === 'new-rooms' && query.length > 3 && users.length > 0 && (
+                <div className="chat__create-results" style={{ width: '100%' }}>
+                    {users.filter(user => user._id !== auth.data.user._id).map(user => (
+                        <Tag icon={<NumberOutlined/>} key={user._id} className={(user.name === query.toLowerCase().split(" ").join("-") ? 'match' : '' )} onClick={e => setQuery(e.target.innerHTML)}>
+                            {user.name}
+                        </Tag>
+                    ))}
+                    
                 </div>
-            )}
-
-            {notification !== "" && (
-                <Alert className="chat__notification" message={notification} type="warning" />
             )}
         </Content>
     )

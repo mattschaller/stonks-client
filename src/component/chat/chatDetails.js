@@ -73,11 +73,11 @@ const ChatDetails = props => {
                     </Panel>
                     <Panel className="room-details__panel-roomMembers" header={(showMenu ? 'Members' : '')} key="roomMembers">
                         {showMenu && room._id && room.users.map((user, index) => (
-                            <UserCard user={user} key={"roomMembers:" + index} />
+                            <UserCard allowMessage={!room.private} user={user} key={"roomMembers:" + index} />
                         ))}
                     </Panel>
                     <Panel className="room-details__panel-roomExtras" header={(showMenu ? 'Extra' : '')} key="roomExtras">
-                        {showMenu && (
+                        {showMenu && !room.private && (
                             <Button type="link" key="roomExtras:1" onClick={setModal}>Leave chat</Button>
                         )}
                     </Panel>

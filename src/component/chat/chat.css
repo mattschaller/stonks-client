@@ -52,7 +52,9 @@
 }
 .chat__create-results .ant-tag {
     padding: 4px;
+    margin: 0 4px 4px 0;
 }
+
 .chat__create-results .ant-tag.match {
     border: 1px solid rgb(140, 202, 116);
 }
@@ -139,6 +141,10 @@
 
 .room-details__panel-roomMembers .ant-collapse-content > .ant-collapse-content-box {
     padding: 8px;
+}
+
+.user-card {
+    font-size: 12px;
 }
 
 .chat-upload {

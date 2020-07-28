@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { serviceContext } from "../../contexts/ServiceContext";
-import { Layout } from 'antd';
+import { Empty, Button, Layout } from 'antd';
 
 import ChatMessage from './chatMessage'
 
@@ -45,7 +45,20 @@ const ChatMessages = props => {
 
     return (
         <Content className="messages hide-scroll">
-            {!room._id && (<>Select a channel or message.  If you have none, create one!</>)}
+            {!room._id && (
+                <Empty
+                    image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                    imageStyle={{
+                    height: '200px',
+                    }}
+                    description={
+                    <span>
+                        No messages. <a href="#S">Click</a> to get started! 🤠 
+                    </span>
+                    }
+                >
+                </Empty>
+            )}
             {room._id && !messages.length && (<>Nothing do display.  Start talking!</>)}
             {room._id && messages.length > 0 && messages.map(message => (
                     <ChatMessage key={message._id} {...message} />

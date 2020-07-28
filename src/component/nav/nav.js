@@ -10,10 +10,11 @@ const { SubMenu } = Menu;
 const Nav = () => {
   const { setAuthData, auth } = useContext(authContext);
   const logOut = () => setAuthData(null)
+  
   return (
     <Header>
-      <div className="logo"></div>
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['main-nav:1']}>
+      {/* <div className="logo"></div> */}
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['main-nav:1']} style={{ float: 'left' }}>
         <Menu.Item key="main-nav:1"><Link to='/'>Home</Link></Menu.Item>
         {!auth.data && <Menu.Item key="main-nav:2"><Link to='/login'>login</Link></Menu.Item>}
         {!auth.data && <Menu.Item key="main-nav:3"><Link to='/register'>register</Link></Menu.Item>}

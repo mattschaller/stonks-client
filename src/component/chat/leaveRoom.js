@@ -24,9 +24,7 @@ const LeaveRoom = (props) => {
                 getRooms();
                 handleOk();
             }
-        } else {
-            setNotification("Incorrect match.  Please try again.")
-        }
+        } 
     }
 
     useEffect(() => {
