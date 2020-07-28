@@ -5,6 +5,7 @@ import { NumberOutlined, PlusOutlined, TeamOutlined, MessageOutlined, MenuFoldOu
 
 import ChatModal from './chatModal'
 import CreateRoom from './createRoom'
+import CreatePrivateRoom from './createPrivateRoom'
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -14,7 +15,8 @@ const ChatNav = (props) => {
     const [showMenu, setShowMenu] = useState(false);
     const [modal, setModal] = useState({ visibility: false, type: null });
 
-    const createRoom = room => setModal({ visibility: true, type: room.key });
+    const [createRoom, setCreateRoom] = useState(false);
+    const [createPrivateRoom, setCreatePrivateRoom] = useState(false);
 
     const { room, getRoom, setRoom, rooms, setRooms, getRooms } = props
     
@@ -41,16 +43,17 @@ const ChatNav = (props) => {
                             {room.users && room.users.filter(user => user._id !== auth.data.user._id).map(user => user.email).join(" + ")}
                         </Menu.Item>
                     ))}
-                    <Menu.Item key="new-messages" className="chat__sidebar-create" onClick={createRoom} icon={<PlusOutlined />}>Send message</Menu.Item>
+                    <Menu.Item key="new-messages" className="chat__sidebar-create" onClick={e => setCreatePrivateRoom(true)} icon={<PlusOutlined />}>Send message</Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub2" title="Channels" icon={<TeamOutlined />}>
                     {rooms.length > 0 && rooms.filter(room => !room.private).map(room => (
                         <Menu.Item key={room._id} onClick={val => getRoom(room)} icon={<NumberOutlined />}>{room.name}</Menu.Item>
                     ))}
-                    <Menu.Item key="new-rooms" className="chat__sidebar-create" onClick={createRoom} icon={<PlusOutlined />}>Join channel</Menu.Item>
+                    <Menu.Item key="new-rooms" className="chat__sidebar-create" onClick={e => setCreateRoom(true)} icon={<PlusOutlined />}>Join channel</Menu.Item>
                 </SubMenu >
             </Menu>
-            <ChatModal component={CreateRoom} setModal={setModal} setRoom={setRoom} getRooms={getRooms} {...modal} />
+            <ChatModal component={CreatePrivateRoom} setModal={setCreatePrivateRoom} setRoom={setRoom} getRooms={getRooms} visibility={createPrivateRoom} />
+            <ChatModal component={CreateRoom} setModal={setCreateRoom} setRoom={setRoom} getRooms={getRooms} visibility={createRoom} />
         </Sider>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'antd';
 
 const ChatModal = ({ component: Component, ...props }) => {
-    const handleOk = () => props.setModal(( props.type ? { visibility: false, type: null } : false ))
+    const handleOk = () => props.setModal(false)
     const handleCancel = handleOk;
     return (
         <Modal

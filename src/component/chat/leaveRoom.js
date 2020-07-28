@@ -29,19 +29,14 @@ const LeaveRoom = (props) => {
 
     useEffect(() => {
         setNotification("");
-        console.log('visibility: ', visibility);
-        console.log('room: ', room);
-        console.log('result: ', result);
+        setResult("");
     }, [visibility]);
-
-    useEffect(() => {
-        console.log('da props: ', props)
-    }, [result]);
 
     return (
         <Content className="leave-room">
-            <h1>Confirm the channel name <em>#{(room ? room.name : '')}</em> to leave.</h1>
+            <h1>Confirm the channel name "<strong><em>{(room ? room.name : '')}</em></strong>" to leave.</h1>
             <Search
+                enterButton="Leave channel"
                 placeholder="Confirm the channel name in order to leave."
                 value={result}
                 onChange={e => setResult(e.target.value)}
