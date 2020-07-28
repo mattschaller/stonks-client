@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { authContext } from '../../contexts/AuthContext';
 import { serviceContext } from '../../contexts/ServiceContext';
 
-const RECAPTCHA_V2_SITE_KEY = process.env.RECAPTCHA_V2_SITE_KEY
+const RECAPTCHA_V2_SITE_KEY = process.env.REACT_APP_RECAPTCHA_V2_SITE_KEY
 
 const validateMessages = {
     required: '${label} is required!',
