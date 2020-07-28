@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
-import { Form, Input, Button, Alert } from 'antd';
+import { Layout, Form, Input, Button, Alert } from 'antd';
 import { Link } from 'react-router-dom';
 import { authContext } from '../../contexts/AuthContext';
 import { serviceContext } from '../../contexts/ServiceContext';
@@ -26,7 +26,7 @@ const Register = (props) => {
     const onChange = () => setMessage("");
 
     return (
-        <>  
+        <Layout style={{ padding: '20px' }}>
             {message}
             <h1>Register</h1>
                     {message && <Alert
@@ -65,12 +65,12 @@ const Register = (props) => {
                 >
                     <Input.Password id="password2" maxLength="20" />
                 </Form.Item>
-                {/* <Form.Item name="recaptcha" label="Recaptcha" rules={[{ required: true }]}>
+                <Form.Item name="recaptcha" label="Recaptcha" rules={[{ required: true }]}>
                     <ReCAPTCHA
                         id="recaptcha"
                         sitekey={RECAPTCHA_V2_SITE_KEY}
                     />
-                </Form.Item> */}
+                </Form.Item>
                 <Form.Item>
                     <Button block type="primary" htmlType="submit">
                         Register
@@ -82,7 +82,7 @@ const Register = (props) => {
                     </Button>
                 </Form.Item>
             </Form>
-        </>
+        </Layout>
     );
 }
 
