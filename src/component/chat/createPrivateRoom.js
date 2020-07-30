@@ -38,8 +38,7 @@ const CreatePrivateRoom = (props) => {
 
     const onFinish = async user => {
         if(user) {
-            console.log('user: ', user)
-            let rooms = await service.send("find", "rooms", { members: { "$in": [auth.data.user._id, user._id] }, private: true })
+            let rooms = await service.send("find", "rooms", { "$or": [{ members: [auth.data.user._id, user._id] },{ members: [user._id, auth.data.user._id]}], private: true })
             if(rooms.data.length > 0) {
                 setRoom(await service.send("get", "rooms", rooms.data[0]._id))
                 handleOk();
