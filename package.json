@@ -27,7 +27,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
     "deploy": "aws s3 sync build/ s3://stonks-client",
+    "postdeploy": "aws cloudfront create-invalidation --distribution-id E5CQ5AOEISEYJ --paths /*",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
